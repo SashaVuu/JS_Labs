@@ -1,0 +1,48 @@
+.load {
+    display: flex;
+    flex-direction: row;
+}
+
+.global_container{
+    margin: 0 auto;
+    width:90%;
+}
+
+.header_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.save_container{
+    display:flex;
+    justify-content: flex-end;
+}
+.modal-content {
+    margin-top: 100px;
+    display: flex;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.upload_container {
+    border-top: 1px solid #dee2e6;
+    padding-top: 10px;
+}
+
+.fileupload {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+
+
+.dropdown {
+    padding-right: 10px;
+}
+
+a, a:hover  {
+    text-decoration: none; /* Убирает подчеркивание для ссылок */
+    color:white;
+}

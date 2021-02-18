@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="views/css/style.css">
+    <title>Laba</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal-content">
+
+            {{#each task}}
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{this.name}}</h5>
+                {{#if messageVisible}}
+                <p style="color:blue">Success!</p>
+                {{/if}}
+            </div>
+            <div class="modal-body">
+
+                <form action="/edit" method="post">
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <label class="form-control-plaintext">{{this.name}}</label>
+                            <input type="hidden" name="taskname" value="{{this.name}}" aria-label="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Status:</label>
+                        <div class="col-sm-10">
+                            <select name="taskstatus" class="form-select" placeholder="{{this.status}}">
+                                <option value="in_process">in_process</option>
+                                <option value="ready">ready</option>
+                                <option value="declined">declined</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Start date:</label>
+                        <div class="col-sm-10">
+                            <label class="form-control-plaintext">{{this.start_date}}</label>
+                            <input type="hidden" name="taskstart" value="{{this.start_date}}" aria-label="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Finish date:</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="taskfinish" class="form-control" value="{{this.finish_date}}"
+                                aria-label="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Executor:</label>
+                        <div class="col-sm-10">
+                            <label class="form-control-plaintext">{{this.executor_surname}}</label>
+                            <input type="hidden" name="taskexecutor" value="{{this.executor_surname}}" aria-label="">
+                        </div>
+                    </div>
+
+                    <div class="save_container">
+                        <input type="hidden" name="taskid" value="{{this.idtask}}">
+                        <div class="mybtn">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><a
+                                    href="/">Back</a></button>
+                            <input type="submit" value="Save Changes" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <form action="edit/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Upload solution:</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="filedata" class="fileupload" />
+                            <input type="submit" value="Send" class="btn btn-secondary mybtn" />
+                        </div>
+                    </div>
+                    <input type="hidden" name="taskid" value="{{this.idtask}}">
+                </form>
+
+            </div>
+            {{/each}}
+
+            <ul>
+            {{#each files}}
+                <li>{{this.originalname}}</li>
+            {{/each}}
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+
+<script src="./front.js"></script>
+
+</html>
