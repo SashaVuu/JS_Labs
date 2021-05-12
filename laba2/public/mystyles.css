@@ -1,0 +1,28 @@
+
+.addform {
+    margin:auto;
+    width:30%;
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+.editform{
+    margin:auto;
+    width:30%;
+    padding-top:20px;
+}
+.global_container{
+    padding: 0 5% 0 5%;
+}
+
+.dropdown_status{
+    margin: 20px 0 20px 0;
+}
+
+.addnew_button{
+    float:right;
+}
+
+.filesform{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

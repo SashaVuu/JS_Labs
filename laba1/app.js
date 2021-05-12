@@ -12,7 +12,6 @@ app.use(multer({dest: "uploads"}).single("filedata"));
 app.use(express.static(__dirname));
 
 
-
 app.use("/add", addRouter);
 app.use("/edit", editRouter);
 app.use("/", taskRouter);

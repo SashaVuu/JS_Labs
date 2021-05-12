@@ -1,8 +1,8 @@
 import React from "react";
 import AddForm from "./AddForm.jsx";
 import EditForm from "./EditForm.jsx";
-import Auth from "./components/Auth.jsx";
-import Register from "./components/Register.jsx";
+import Auth from "./Auth.jsx";
+import Register from "./Register.jsx";
 import TaskTable from "./TaskTable.jsx";
 import TasksStore from '../stores/TasksStore';
 import TasksActions from "../actions/TasksActions";
@@ -25,11 +25,12 @@ class App extends React.Component {
         super(props);
         var data = getStateFromFlux();
 
-        this.state = Object.assign(data, { file_to_upload: null});
+        this.state = Object.assign(data, { file_to_upload: null });
 
         this.isAdd = true;
-        this.isAuthorization=false;
-        this.isRegistration=false;
+        this.isAuthorization = false;
+        this.isRegistration = false;
+
 
         this._onChange = this._onChange.bind(this);
         this.handleFiltering = this.handleFiltering.bind(this);
@@ -39,6 +40,16 @@ class App extends React.Component {
         this.handleEditing = this.handleEditing.bind(this);
         this.handleAdding = this.handleAdding.bind(this);
         this.handleSendingFiles = this.handleSendingFiles.bind(this);
+
+
+        this.handleLoginChoose = this.handleLoginChoose.bind(this);
+        this.handleRegisterChoose = this.handleRegisterChoose.bind(this);
+        this.handleTableChoose = this.handleTableChoose.bind(this);
+        this.handleLogoutChoose = this.handleLogoutChoose.bind(this);
+
+        this.handleUserRegister = this.handleUserRegister.bind(this);
+        this.handleUserLogin = this.handleUserLogin.bind(this);
+
     }
 
     componentWillMount() {
@@ -78,6 +89,7 @@ class App extends React.Component {
         console.log(`will delete: ${id}`)
         TasksActions.deleteTask(id);
         TasksActions.getAllTasks();
+        TaskStore.emitChange();
     }
 
     handleUpdating(id) {
@@ -102,9 +114,46 @@ class App extends React.Component {
         TasksStore.emitChange();
     }
 
+    handleLoginChoose() {
+        this.isAuthorization = true;
+        this.isRegistration = false;
+        TasksStore.emitChange();
+    }
+
+    handleLogoutChoose() {
+        TasksActions.userLogout();
+        this.isAuthorization = false;
+        this.isRegistration = false;
+    }
+
+    handleRegisterChoose() {
+        this.isAuthorization = false;
+        this.isRegistration = true;
+        TasksStore.emitChange();
+    }
+
+    handleTableChoose() {
+        this.isAuthorization = false;
+        this.isRegistration = false;
+        TasksStore.emitChange();
+    }
+
+    handleUserLogin(user) {
+        console.log(`will login`);
+        console.log(user);
+        TasksActions.userLogin(user);
+    }
+
+    handleUserRegister(user) {
+        console.log(`will register`);
+        console.log(user);
+        TasksActions.userRegister(user);
+    }
+
     render() {
         console.log("rerender main");
         console.log(this.state);
+
         let form;
         if (this.isAdd) {
             form = <AddForm onTaskAdd={this.handleTaskAdd} />;
@@ -114,28 +163,33 @@ class App extends React.Component {
         }
 
         //Регистрация
-        if (this.isRegistration){
-            return (<Register />);
+        if (this.isRegistration) {
+            return (<Register onBack={this.handleTableChoose} onUserRegister={this.handleUserRegister} />);
         }
-        else{
-            //Аутентификация
-            if(!this.Authorization){
-                return (<Auth />);
-            }
-            //Таблица
-            else{
-                return (<div class="global_container">
-                <TaskTable tasks={this.state.tasks} onFilter={this.handleFiltering} onEdit={this.handleEditing}
-                    onDelete={this.handleDeleting} />
-                <div class="addnew_button">
-                    <Button variant="primary" onClick={this.handleAdding}>Add New</Button>
-                </div>
-                {form}
+
+        //Авторизация
+        if (this.isAuthorization) {
+            return (<Auth onBack={this.handleTableChoose} onUserLogin={this.handleUserLogin} />);
+        }
+
+        if (!this.isAuthorization && !this.isRegistration) {
+            return (
+                <div class="global_container">
+                    <div class="btn_container">
+                        <div class="mybtns"><Button variant="primary" onClick={this.handleLoginChoose} >Login</Button></div>
+                        <div class="mybtns"><Button variant="primary" onClick={this.handleRegisterChoose} >Register</Button></div>
+                        <div class="mybtns"> <Button variant="secondary" onClick={this.handleLogoutChoose} >Logout</Button></div>
+
+                    </div>
+
+                    <TaskTable tasks={this.state.tasks} onFilter={this.handleFiltering} onEdit={this.handleEditing}
+                        onDelete={this.handleDeleting} />
+                    <div class="addnew_button">
+                        <Button variant="primary" onClick={this.handleAdding}>Add New</Button>
+                    </div>
+                    {form}
                 </div>);
-            }
-
         }
-
     }
 }
 

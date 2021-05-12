@@ -25,7 +25,6 @@ exports.sortTasks = async function (request, response){
 
     let data = await TasksModel.sortTasks(status);
 
-
     if(data!==false){
         response.status(200).send(data);
     }

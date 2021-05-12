@@ -17,7 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(multer({dest: "uploads"}).single("text_file"));
 app.use(express.static(__dirname));
-app.use(cors()); //c 8000 to 3000
+app.use(cors({
+    origin: 'http://localhost:8081',
+    credentials: true
+    })); //c 8000 to 3000
+
 app.use(cookieParser());
 
 

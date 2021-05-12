@@ -120,9 +120,11 @@ const TasksActions = {
             });
     },
 
-    insertNewFile(file,id) {
-        api.insertNewFile(file,id)
-        .then(({data}) => {
+    insertNewFile(file, id) {
+        api.insertNewFile(file, id)
+            .then(({
+                data
+            }) => {
                 console.log("YEEee");
                 AppDispatcher.dispatch({
                     type: AppConstants.ADD_NEW_FILE,
@@ -159,7 +161,18 @@ const TasksActions = {
                     error: err
                 })
             });
-    }
+    },
+
+    userLogout() {
+        api.userLogout()
+            .catch(err => {
+                console.log("noo");
+                AppDispatcher.dispatch({
+                    type: AppConstants.LOAD_TASKS_FAIL,
+                    error: err
+                })
+            });
+    },
 
 
 

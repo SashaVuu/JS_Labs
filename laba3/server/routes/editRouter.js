@@ -1,13 +1,11 @@
 const express = require("express");
 const editController = require("../controllers/editController.js");
 const editRouter = express.Router();
- 
-editRouter.get("/*", editController.getTaskInfo);
+const mw = require("../middleware/jwt.js");
 
-editRouter.get("/files/*", editController.getAllFiles);
+editRouter.get("/*",mw.verifyJWT, editController.getTaskInfo);
 
-editRouter.put("/*", editController.saveTaskInfo);
+editRouter.put("/*",mw.verifyJWT, editController.saveTaskInfo);
 
-editRouter.post("/upload/*", editController.uploadTasks);
 
 module.exports = editRouter;
